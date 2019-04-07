@@ -93,7 +93,14 @@ namespace CalculatorService.Service
         /// <returns>the arithmetic operation result</returns>
         public Sqrt Sqrt(int Number)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return daoCalculators.Sqrt(Number);
+            }
+            catch (DataException ex)
+            {
+                throw new ServiceException("Error service Sub", ex);
+            }
         }
 
         /// <summary>

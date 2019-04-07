@@ -103,5 +103,23 @@ namespace CalculatorService.Test
             Assert.AreEqual(quotient, restult.Quotient);
             Assert.AreEqual(remainder, restult.Remainder);
         }
+
+        /// <summary>
+        /// This method serves UC-­CALC-­SQRT external interface
+        /// </summary>
+        [TestMethod]
+        public void SqrtTest()
+        {
+            int number = 16;
+            int square = 4;
+
+            var moqDaoCalculators = new Mock<IDaoCalculators>();
+
+            moqDaoCalculators.Setup(r => r.Sqrt(number)).Returns(new Sqrt());
+
+            ServiceCalculators serviceCalculators = new ServiceCalculators(moqDaoCalculators.Object);
+
+            Assert.AreEqual(serviceCalculators.Sqrt(number), square);
+        }
     }
 }

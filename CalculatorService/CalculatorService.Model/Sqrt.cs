@@ -9,6 +9,6 @@ namespace CalculatorService.Model
         /// <summary>
         /// the arithmetic operation result
         /// </summary>
-        public int Square { get; set; }
+        public double Square { get; set; }
     }
 }

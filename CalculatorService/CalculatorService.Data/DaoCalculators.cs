@@ -102,7 +102,18 @@ namespace CalculatorService.Data
         /// <returns>the arithmetic operation result</returns>
         public Sqrt Sqrt(int Number)
         {
-            throw new NotImplementedException();
+            Sqrt sqrt = new Sqrt();
+            try
+            {
+                sqrt.Square = Math.Sqrt(Convert.ToDouble(Number));
+
+            }
+            catch (Exception ex)
+            {
+                throw new DataException("Error dao Sub.", ex);
+            }
+
+            return sqrt;
         }
 
         /// <summary>

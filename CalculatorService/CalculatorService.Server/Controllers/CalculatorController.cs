@@ -133,6 +133,27 @@ namespace CalculatorService.Server.Controllers
 
         }
 
+        [HttpPost]
+        [Route("[action]")]
+        public ActionResult<Sqrt> Sqrt([FromBody] SqrtDto sqrtdto)
+        {
+            try
+            {
+                var re = Request;
+                var headers = re.Headers;
+
+                Sqrt Restul = this.serviceCalculators.Sqrt(sqrtdto.Number);
+
+                return Restul;
+            }
+            catch (ServiceException ex)
+            {
+                _logger.LogError(ex.StackTrace);
+                return new Sqrt();
+            }
+
+        }
+
         private void SaveJournal(string TrackingId, Operations Operation)
         {
 

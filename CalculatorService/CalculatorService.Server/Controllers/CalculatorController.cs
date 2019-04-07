@@ -90,7 +90,28 @@ namespace CalculatorService.Server.Controllers
             }
 
         }
-        
+
+        [HttpPost]
+        [Route("[action]")]
+        public ActionResult<Mult> Mult([FromBody] MultDto multdto)
+        {
+            try
+            {
+                var re = Request;
+                var headers = re.Headers;
+
+                Mult Product = this.serviceCalculators.Mult(multdto.Factors);
+
+                return Product;
+            }
+            catch (ServiceException ex)
+            {
+                _logger.LogError(ex.StackTrace);
+                return new Mult();
+            }
+
+        }
+
         private void SaveJournal(string TrackingId, Operations Operation)
         {
 

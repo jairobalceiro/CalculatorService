@@ -57,5 +57,28 @@ namespace CalculatorService.Test
 
             Assert.AreEqual(serviceCalculators.Sub(minuend, substraned), addresult);
         }
+
+
+        /// <summary>
+        /// This method serves UC-­CALC-­MULT external interface
+        /// </summary>
+        [TestMethod]
+        public void MultTest()
+        {
+            List<int> Factors = new List<int>();
+            int addresult = 48;
+
+            Factors.Add(8);
+            Factors.Add(3);
+            Factors.Add(2);
+
+            var moqDaoCalculators = new Mock<IDaoCalculators>();
+
+            moqDaoCalculators.Setup(r => r.Mult(Factors)).Returns(new Mult());
+
+            ServiceCalculators serviceCalculators = new ServiceCalculators(moqDaoCalculators.Object);
+
+            Assert.AreEqual(serviceCalculators.Mult(Factors), addresult);
+        }
     }
 }

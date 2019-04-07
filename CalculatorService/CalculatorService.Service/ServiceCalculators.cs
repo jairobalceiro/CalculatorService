@@ -59,7 +59,14 @@ namespace CalculatorService.Service
         /// <returns>the arithmetic operation result</returns>
         public Mult Mult(List<int> Factors)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return daoCalculators.Mult(Factors);
+            }
+            catch (DataException ex)
+            {
+                throw new ServiceException("Error service Add Mult", ex);
+            }
         }
 
         /// <summary>

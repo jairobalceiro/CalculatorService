@@ -57,7 +57,17 @@ namespace CalculatorService.Data
         /// <returns>the arithmetic operation result</returns>
         public Mult Mult(List<int> Factors)
         {
-            throw new NotImplementedException();
+            Mult mul = new Mult();
+            try
+            {
+                mul.Product = Factors.Aggregate((total, next) => total * next); ;
+            }
+            catch (Exception ex)
+            {
+                throw new DataException("Error dao Add.", ex);
+            }
+
+            return mul;
         }
 
         /// <summary>

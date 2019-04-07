@@ -112,6 +112,27 @@ namespace CalculatorService.Server.Controllers
 
         }
 
+        [HttpPost]
+        [Route("[action]")]
+        public ActionResult<Div> Div([FromBody] DivDto divdto)
+        {
+            try
+            {
+                var re = Request;
+                var headers = re.Headers;
+
+                Div Restul = this.serviceCalculators.Div(divdto.Dividend,divdto.Divisor);
+
+                return Restul;
+            }
+            catch (ServiceException ex)
+            {
+                _logger.LogError(ex.StackTrace);
+                return new Div();
+            }
+
+        }
+
         private void SaveJournal(string TrackingId, Operations Operation)
         {
 

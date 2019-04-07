@@ -47,7 +47,22 @@ namespace CalculatorService.Data
         /// <returns>the arithmetic operation result</returns>
         public Div Div(int Dividend, int Divisor)
         {
-            throw new NotImplementedException();
+            Div div = new Div();
+            int remainder = 0;
+            int quotient = 0;
+            try
+            {
+                quotient = Math.DivRem(Dividend, Divisor, out remainder);
+                div.Quotient = quotient;
+                div.Remainder = remainder;
+
+            }
+            catch (Exception ex)
+            {
+                throw new DataException("Error dao Sub.", ex);
+            }
+
+            return div;
         }
 
         /// <summary>

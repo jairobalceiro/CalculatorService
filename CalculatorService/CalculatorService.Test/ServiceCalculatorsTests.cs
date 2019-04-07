@@ -80,5 +80,28 @@ namespace CalculatorService.Test
 
             Assert.AreEqual(serviceCalculators.Mult(Factors), addresult);
         }
+
+        /// <summary>
+        /// This method serves UC-­CALC-­DIV external interface
+        /// </summary>
+        [TestMethod]
+        public void DivTest()
+        {
+            int dividend = 11;
+            int divisor = 2;
+            int quotient = 5;
+            int remainder = 1;   
+
+            var moqDaoCalculators = new Mock<IDaoCalculators>();
+
+            moqDaoCalculators.Setup(r => r.Div(dividend,divisor)).Returns(new Div());
+
+            ServiceCalculators serviceCalculators = new ServiceCalculators(moqDaoCalculators.Object);
+
+            Div restult = serviceCalculators.Div(dividend, divisor);
+
+            Assert.AreEqual(quotient, restult.Quotient);
+            Assert.AreEqual(remainder, restult.Remainder);
+        }
     }
 }

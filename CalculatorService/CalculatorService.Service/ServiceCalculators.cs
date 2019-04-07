@@ -49,7 +49,14 @@ namespace CalculatorService.Service
         /// <returns>the arithmetic operation result</returns>
         public Div Div(int Dividend, int Divisor)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return daoCalculators.Div(Dividend, Divisor);
+            }
+            catch (DataException ex)
+            {
+                throw new ServiceException("Error service Add Sums", ex);
+            }
         }
 
         /// <summary>

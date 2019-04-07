@@ -1,0 +1,11 @@
+CalculatorService/.vs/
+CalculatorService/CalculatorService.Data/obj/
+CalculatorService/CalculatorService.Data/bin/
+CalculatorService/CalculatorService/obj/
+CalculatorService/CalculatorService/bin/Debug/
+CalculatorService/CalculatorService.Service/obj/
+CalculatorService/CalculatorService.Service/bin/
+CalculatorService/CalculatorService.Model/obj/
+CalculatorService/CalculatorService.Model/bin/
+CalculatorService/CalculatorService.Test/obj/
+CalculatorService/CalculatorService.Test/bin/

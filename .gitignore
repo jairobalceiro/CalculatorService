@@ -9,3 +9,6 @@ CalculatorService/CalculatorService.Model/obj/
 CalculatorService/CalculatorService.Model/bin/
 CalculatorService/CalculatorService.Test/obj/
 CalculatorService/CalculatorService.Test/bin/
+CalculatorService.Client/.vs/
+CalculatorService.Client/CalculatorService.Client/obj/
+CalculatorService.Client/CalculatorService.Client/bin/

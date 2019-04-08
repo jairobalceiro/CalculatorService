@@ -34,6 +34,7 @@ namespace CalculatorService.Server.Controllers
         public JournalController(IServiceCalculators serviceCalculators, ILogger<JournalController> logger)
         {
             this.serviceCalculators = serviceCalculators;
+            this._logger = logger;
         }
 
         [HttpPost]

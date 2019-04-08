@@ -34,6 +34,7 @@ namespace CalculatorService.Server.Controllers
         public CalculatorController(IServiceCalculators serviceCalculators, ILogger<CalculatorController> logger)
         {
             this.serviceCalculators = serviceCalculators;
+            this._logger = logger;
         }
 
         [HttpPost]

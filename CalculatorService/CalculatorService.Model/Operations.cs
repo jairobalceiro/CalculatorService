@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -10,9 +11,9 @@ namespace CalculatorService.Model
     public class Operations
     {
         /// <summary>
-        /// the Tracking­-Id
+        /// the Tracking­Id
         /// </summary>
-        public string Tracking­Id { get; set; }
+        public string Id { get; set; }
         /// <summary>
         /// the Operation
         /// </summary>
@@ -24,6 +25,6 @@ namespace CalculatorService.Model
         /// <summary>
         /// The Date of Operation
         /// </summary>
-        public DateTime Date { get; set; }
+        public string Date { get; set; }
     }
 }

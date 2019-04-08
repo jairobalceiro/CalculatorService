@@ -50,5 +50,11 @@ namespace CalculatorService.Data
         /// <param name="Id">The Tracking­Id for which journal should be queried against</param>
         /// <returns>List of all the operations performed with the specified Tracking­Id</returns>
         ICollection<Operations> Query(string Id);
+
+        /// <summary>
+        /// Save Journal 
+        /// </summary>
+        /// <param name="operation">Object of operations</param>
+        void SaveJournal(Operations operation);
     }
 }

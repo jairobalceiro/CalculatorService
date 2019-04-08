@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using CalculatorService.Model;
+using Newtonsoft.Json;
 
 namespace CalculatorService.Data
 {
@@ -11,6 +14,8 @@ namespace CalculatorService.Data
     /// </summary>
     public class DaoCalculators : IDaoCalculators
     {
+        private static ICollection<Operations> LOperations = new Collection<Operations>();
+
         /// <summary>
         /// Initializes a new instance of the <see cref="T:CalculatorService.Data.DaoCalculators"/> class.
         /// </summary>
@@ -92,7 +97,33 @@ namespace CalculatorService.Data
         /// <returns>List of all the operations performed with the specified Tracking­Id</returns>
         public ICollection<Operations> Query(string Id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return LOperations.Where(g => g.Id == Id).ToList(); 
+            }
+            catch (Exception ex)
+            {
+                throw new DataException("Error dao get all Operations.", ex);
+            }
+
+           
+        }
+        
+        /// <summary>
+        /// Save Journal 
+        /// </summary>
+        /// <param name="operation">Object of operations</param>
+        public void SaveJournal(Operations operation)
+        {
+            try
+            {
+                LOperations.Add(operation);
+            }
+            catch (Exception ex)
+            {
+                throw new DataException("Error dao Save journal.", ex);
+            }
+
         }
 
         /// <summary>

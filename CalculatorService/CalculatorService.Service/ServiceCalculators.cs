@@ -83,7 +83,30 @@ namespace CalculatorService.Service
         /// <returns>List of all the operations performed with the specified Tracking­Id</returns>
         public ICollection<Operations> Query(string Id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return daoCalculators.Query(Id);
+            }
+            catch (DataException ex)
+            {
+                throw new ServiceException("Error service Sub", ex);
+            }
+        }
+
+        /// <summary>
+        /// Save Journal 
+        /// </summary>
+        /// <param name="operation">Object of operations</param>
+        public void SaveJournal(Operations operation)
+        {
+            try
+            {
+                 daoCalculators.SaveJournal(operation);
+            }
+            catch (DataException ex)
+            {
+                throw new ServiceException("Error service save journal", ex);
+            }
         }
 
         /// <summary>

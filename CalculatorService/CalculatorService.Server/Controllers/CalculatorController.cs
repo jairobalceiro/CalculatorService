@@ -48,6 +48,9 @@ namespace CalculatorService.Server.Controllers
                 var headers = re.Headers;
                 string calculations = null;
 
+                if (add.Addends == null)
+                    return BadRequest("invalid request/arguments");
+
                 Sums sum =  this.serviceCalculators.Add(add.Addends);
 
                 //If a 'TrackingId’ was provided, the server should store this request’s details inside it’s 
@@ -80,7 +83,7 @@ namespace CalculatorService.Server.Controllers
             catch (ServiceException ex)
             {
                 _logger.LogError(ex.StackTrace);
-                return new Sums();
+                throw new Exception(ex.Message);
             }
 
         }
@@ -94,6 +97,9 @@ namespace CalculatorService.Server.Controllers
                 string TrackingId = null;
                 var re = Request;
                 var headers = re.Headers;
+
+                if (sub.Minuend == 0 && sub.Subtrahend == 0 )
+                    return BadRequest("invalid request/arguments");
 
                 Sub Difference = this.serviceCalculators.Sub(sub.Minuend, sub.Subtrahend);
 
@@ -122,7 +128,7 @@ namespace CalculatorService.Server.Controllers
             catch (ServiceException ex)
             {
                 _logger.LogError(ex.StackTrace);
-                return new Sub();
+                throw new Exception(ex.Message);
             }
 
         }
@@ -137,6 +143,8 @@ namespace CalculatorService.Server.Controllers
                 var re = Request;
                 var headers = re.Headers;
                 string Factors = null;
+                if (multdto.Factors == null)
+                    return BadRequest("invalid request/arguments");
 
                 Mult Product = this.serviceCalculators.Mult(multdto.Factors);
 
@@ -169,7 +177,7 @@ namespace CalculatorService.Server.Controllers
             catch (ServiceException ex)
             {
                 _logger.LogError(ex.StackTrace);
-                return new Mult();
+                throw new Exception(ex.Message);
             }
 
         }
@@ -183,6 +191,9 @@ namespace CalculatorService.Server.Controllers
                 string TrackingId = null;
                 var re = Request;
                 var headers = re.Headers;
+
+                if (divdto.Divisor == 0)
+                    return BadRequest("invalid request/arguments");
 
                 Div Restul = this.serviceCalculators.Div(divdto.Dividend,divdto.Divisor);
 
@@ -212,7 +223,7 @@ namespace CalculatorService.Server.Controllers
             catch (ServiceException ex)
             {
                 _logger.LogError(ex.StackTrace);
-                return new Div();
+                throw new Exception(ex.Message);
             }
 
         }
@@ -226,6 +237,9 @@ namespace CalculatorService.Server.Controllers
                 string TrackingId = null;
                 var re = Request;
                 var headers = re.Headers;
+
+                if (sqrtdto.Number == 0)
+                    return BadRequest("invalid request/arguments");
 
                 Sqrt Restul = this.serviceCalculators.Sqrt(sqrtdto.Number);
 
@@ -255,7 +269,7 @@ namespace CalculatorService.Server.Controllers
             catch (ServiceException ex)
             {
                 _logger.LogError(ex.StackTrace);
-                return new Sqrt();
+                throw new Exception(ex.Message);
             }
 
         }

@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -30,11 +30,11 @@ namespace CalculatorService.Test
 
             var moqDaoCalculators = new Mock<IDaoCalculators>();
 
-            moqDaoCalculators.Setup(r => r.Add(Addends)).Returns(new Sums());
+            moqDaoCalculators.Setup(r => r.Add(Addends)).Returns(new Sums() { Sum=8});
 
             ServiceCalculators serviceCalculators = new ServiceCalculators(moqDaoCalculators.Object);
-
-            Assert.AreEqual(serviceCalculators.Add(Addends), addresult);
+            int sum = serviceCalculators.Add(Addends).Sum;
+            Assert.AreEqual(sum, addresult);
         }
 
 
@@ -51,11 +51,11 @@ namespace CalculatorService.Test
 
             var moqDaoCalculators = new Mock<IDaoCalculators>();
 
-            moqDaoCalculators.Setup(r => r.Sub(minuend, substraned)).Returns(new Sub());
+            moqDaoCalculators.Setup(r => r.Sub(minuend, substraned)).Returns(new Sub() { Difference = 3});
 
             ServiceCalculators serviceCalculators = new ServiceCalculators(moqDaoCalculators.Object);
-
-            Assert.AreEqual(serviceCalculators.Sub(minuend, substraned), addresult);
+            int result = serviceCalculators.Sub(minuend, substraned).Difference;
+            Assert.AreEqual(result, addresult);
         }
 
 
@@ -74,11 +74,13 @@ namespace CalculatorService.Test
 
             var moqDaoCalculators = new Mock<IDaoCalculators>();
 
-            moqDaoCalculators.Setup(r => r.Mult(Factors)).Returns(new Mult());
+            moqDaoCalculators.Setup(r => r.Mult(Factors)).Returns(new Mult() { Product = 48});
 
             ServiceCalculators serviceCalculators = new ServiceCalculators(moqDaoCalculators.Object);
 
-            Assert.AreEqual(serviceCalculators.Mult(Factors), addresult);
+            int result = serviceCalculators.Mult(Factors).Product;
+
+            Assert.AreEqual(result, addresult);
         }
 
         /// <summary>
@@ -94,7 +96,7 @@ namespace CalculatorService.Test
 
             var moqDaoCalculators = new Mock<IDaoCalculators>();
 
-            moqDaoCalculators.Setup(r => r.Div(dividend,divisor)).Returns(new Div());
+            moqDaoCalculators.Setup(r => r.Div(dividend,divisor)).Returns(new Div() { Quotient = quotient, Remainder = remainder });
 
             ServiceCalculators serviceCalculators = new ServiceCalculators(moqDaoCalculators.Object);
 
@@ -115,11 +117,11 @@ namespace CalculatorService.Test
 
             var moqDaoCalculators = new Mock<IDaoCalculators>();
 
-            moqDaoCalculators.Setup(r => r.Sqrt(number)).Returns(new Sqrt());
+            moqDaoCalculators.Setup(r => r.Sqrt(number)).Returns(new Sqrt() { Square = square });
 
             ServiceCalculators serviceCalculators = new ServiceCalculators(moqDaoCalculators.Object);
-
-            Assert.AreEqual(serviceCalculators.Sqrt(number), square);
+            double result = serviceCalculators.Sqrt(number).Square;
+            Assert.AreEqual(result, square);
         }
     }
 }

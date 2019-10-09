@@ -50,7 +50,7 @@ namespace CalculatorService
                .ReadFrom.Configuration(Configuration)
                .MinimumLevel.Verbose()
                .Enrich.FromLogContext()
-               //.WriteTo.
+               .WriteTo.File("log.txt", rollOnFileSizeLimit: true)
                .CreateLogger()).As<Serilog.ILogger>();
 
             return new AutofacServiceProvider(builder.Build());

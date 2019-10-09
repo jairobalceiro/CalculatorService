@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.FileExtensions;
 using Microsoft.Extensions.Configuration.Json;
-
+using CalculatorService.Client.Model;
 
 namespace CalculatorService.Client
 {
@@ -47,9 +47,9 @@ namespace CalculatorService.Client
                 if (responsePost.IsSuccessStatusCode)
                 {
                     // Get the URI of the created resource.
-                   // Console.WriteLine(responsePost.Content.ReadAsStringAsync().Result);
-                    Sums sum = JsonConvert.DeserializeObject<Sums>(responsePost.Content.ReadAsStringAsync().Result);
-                    Console.WriteLine(string.Format("Sum:{0}",sum.Sum));
+                    // Console.WriteLine(responsePost.Content.ReadAsStringAsync().Result);
+                    Response<Sums> sum = JsonConvert.DeserializeObject<Response<Sums>>(responsePost.Content.ReadAsStringAsync().Result);
+                    Console.WriteLine(string.Format("Sum:{0}", sum.Data.Sum));
                 }
             }
         }
@@ -69,8 +69,8 @@ namespace CalculatorService.Client
                 {
                     // Get the URI of the created resource.
                     // Console.WriteLine(responsePost.Content.ReadAsStringAsync().Result);
-                    Sub difference = JsonConvert.DeserializeObject<Sub>(responsePost.Content.ReadAsStringAsync().Result);
-                    Console.WriteLine(string.Format("Difference: {0}", difference.Difference));
+                    Response<Sub> difference = JsonConvert.DeserializeObject<Response<Sub>>(responsePost.Content.ReadAsStringAsync().Result);
+                    Console.WriteLine(string.Format("Difference: {0}", difference.Data.Difference));
                 }
             }
         }
@@ -90,8 +90,8 @@ namespace CalculatorService.Client
                 {
                     // Get the URI of the created resource.
                     // Console.WriteLine(responsePost.Content.ReadAsStringAsync().Result);
-                    Mult mult = JsonConvert.DeserializeObject<Mult>(responsePost.Content.ReadAsStringAsync().Result);
-                    Console.WriteLine(string.Format("Product: {0}", mult.Product));
+                    Response<Mult> mult = JsonConvert.DeserializeObject<Response<Mult>>(responsePost.Content.ReadAsStringAsync().Result);
+                    Console.WriteLine(string.Format("Product: {0}", mult.Data.Product));
                 }
             }
         }
@@ -111,9 +111,9 @@ namespace CalculatorService.Client
                 {
                     // Get the URI of the created resource.
                     // Console.WriteLine(responsePost.Content.ReadAsStringAsync().Result);
-                    Div div = JsonConvert.DeserializeObject<Div>(responsePost.Content.ReadAsStringAsync().Result);
-                    Console.WriteLine(string.Format("Quotient: {0}", div.Quotient));
-                    Console.WriteLine(string.Format("Remainder: {0}", div.Remainder));
+                    Response<Div> div = JsonConvert.DeserializeObject<Response<Div>>(responsePost.Content.ReadAsStringAsync().Result);
+                    Console.WriteLine(string.Format("Quotient: {0}", div.Data.Quotient));
+                    Console.WriteLine(string.Format("Remainder: {0}", div.Data.Remainder));
                 }
             }
         }
@@ -133,8 +133,8 @@ namespace CalculatorService.Client
                 {
                     // Get the URI of the created resource.
                     // Console.WriteLine(responsePost.Content.ReadAsStringAsync().Result);
-                    Sqrt sqrt = JsonConvert.DeserializeObject<Sqrt>(responsePost.Content.ReadAsStringAsync().Result);
-                    Console.WriteLine(string.Format("Square: {0}", sqrt.Square));
+                    Response<Sqrt> sqrt = JsonConvert.DeserializeObject<Response<Sqrt>>(responsePost.Content.ReadAsStringAsync().Result);
+                    Console.WriteLine(string.Format("Square: {0}", sqrt.Data.Square));
                 }
             }
         }
@@ -152,8 +152,8 @@ namespace CalculatorService.Client
                 {
                     // Get the URI of the created resource.
                     // Console.WriteLine(responsePost.Content.ReadAsStringAsync().Result);
-                    List<Operations> operations = JsonConvert.DeserializeObject<List<Operations>>(responsePost.Content.ReadAsStringAsync().Result);
-                    foreach(Operations operation in operations)
+                    Response<List<Operations>> operations = JsonConvert.DeserializeObject<Response<List<Operations>>>(responsePost.Content.ReadAsStringAsync().Result);
+                    foreach(Operations operation in operations.Data)
                     {
                         Console.WriteLine(string.Format("Operation: {0} , Calculation : {1}, Date : {2}", operation.Operation, operation.Calculation,operation.Date));
 

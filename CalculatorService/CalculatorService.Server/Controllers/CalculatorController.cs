@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using CalculatorService.Model;
 using CalculatorService.Server.Dtos;
 using CalculatorService.Service;
-using CalculatorService.Model;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System.Collections.ObjectModel;
+using Serilog;
+using System;
 
 namespace CalculatorService.Server.Controllers
 {
@@ -24,14 +19,14 @@ namespace CalculatorService.Server.Controllers
         /// <summary>
         /// The logger.
         /// </summary>
-        private readonly ILogger<CalculatorController> _logger;
+        private readonly ILogger _logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:CalculatorService.Server.CalculatorController"/> class.
         /// </summary>
         /// <param name="serviceCalculators">Service Calculators.</param>
         /// <param name="logger">logger.</param>
-        public CalculatorController(IServiceCalculators serviceCalculators, ILogger<CalculatorController> logger)
+        public CalculatorController(IServiceCalculators serviceCalculators, ILogger logger)
         {
             this.serviceCalculators = serviceCalculators;
             this._logger = logger;
@@ -82,7 +77,7 @@ namespace CalculatorService.Server.Controllers
             }
             catch (ServiceException ex)
             {
-                _logger.LogError(ex.StackTrace);
+                _logger.Error(ex.StackTrace);
                 throw new Exception(ex.Message);
             }
 
@@ -127,7 +122,7 @@ namespace CalculatorService.Server.Controllers
             }
             catch (ServiceException ex)
             {
-                _logger.LogError(ex.StackTrace);
+                _logger.Error(ex.StackTrace);
                 throw new Exception(ex.Message);
             }
 
@@ -176,7 +171,7 @@ namespace CalculatorService.Server.Controllers
             }
             catch (ServiceException ex)
             {
-                _logger.LogError(ex.StackTrace);
+                _logger.Error(ex.StackTrace);
                 throw new Exception(ex.Message);
             }
 
@@ -222,7 +217,7 @@ namespace CalculatorService.Server.Controllers
             }
             catch (ServiceException ex)
             {
-                _logger.LogError(ex.StackTrace);
+                _logger.Error(ex.StackTrace);
                 throw new Exception(ex.Message);
             }
 
@@ -268,7 +263,7 @@ namespace CalculatorService.Server.Controllers
             }
             catch (ServiceException ex)
             {
-                _logger.LogError(ex.StackTrace);
+                _logger.Error(ex.StackTrace);
                 throw new Exception(ex.Message);
             }
 

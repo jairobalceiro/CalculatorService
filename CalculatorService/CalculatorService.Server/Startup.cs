@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using CalculatorService.Data;
@@ -13,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Serilog;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace CalculatorService
 {
@@ -43,6 +45,14 @@ namespace CalculatorService
                 );
             });
 
+            services.AddSwaggerGen(s =>
+            {
+                s.SwaggerDoc("v1", new Info { Title = Configuration["Swagger:Name"], Version = "v1" });
+                // Set the comments path for the Swagger JSON and UI.
+                string xmlPath = Path.Combine(AppContext.BaseDirectory, Configuration["Swagger:xmlFile"]);
+                s.IncludeXmlComments(xmlPath);
+            });
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
@@ -62,15 +72,18 @@ namespace CalculatorService
             // logging
             loggerFactory.AddSerilog();
 
+            app.UseSwagger();
+            app.UseSwaggerUI(s =>
+            {
+                s.SwaggerEndpoint(Configuration["Swagger:Path"], Configuration["Swagger:Name"]);
+            });
+
+
             app.UseCors("AllowSpecificOrigin");
             app.UseHttpsRedirection();
-            //app.UseMvc();
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute("blog", "blog/{*article}",
-                         defaults: new { controller = "Blog", action = "Article" });
-                routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}");
-            });
+            app.UseHttpsRedirection();
+            app.UseAuthentication();
+            app.UseMvc();
 
         }
     }

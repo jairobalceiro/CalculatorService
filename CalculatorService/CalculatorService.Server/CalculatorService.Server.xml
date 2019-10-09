@@ -1,0 +1,151 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CalculatorService.Server</name>
+    </assembly>
+    <members>
+        <member name="F:CalculatorService.Server.Controllers.CalculatorController.serviceCalculators">
+            <summary>
+            The Service Calculators 
+            </summary>
+        </member>
+        <member name="F:CalculatorService.Server.Controllers.CalculatorController._logger">
+            <summary>
+            The logger.
+            </summary>
+        </member>
+        <member name="M:CalculatorService.Server.Controllers.CalculatorController.#ctor(CalculatorService.Service.IServiceCalculators,Serilog.ILogger)">
+            <summary>
+            Initializes a new instance of the <see cref="T:CalculatorService.Server.CalculatorController"/> class.
+            </summary>
+            <param name="serviceCalculators">Service Calculators.</param>
+            <param name="logger">logger.</param>
+        </member>
+        <member name="F:CalculatorService.Server.Controllers.JournalController.serviceCalculators">
+            <summary>
+            The Service Calculators 
+            </summary>
+        </member>
+        <member name="F:CalculatorService.Server.Controllers.JournalController._logger">
+            <summary>
+            The logger.
+            </summary>
+        </member>
+        <member name="M:CalculatorService.Server.Controllers.JournalController.#ctor(CalculatorService.Service.IServiceCalculators,Serilog.ILogger)">
+            <summary>
+            Initializes a new instance of the <see cref="T:CalculatorService.Server.JournalController"/> class.
+            </summary>
+            <param name="serviceCalculators">Service Calculators.</param>
+            <param name="logger">logger.</param>
+        </member>
+        <member name="T:CalculatorService.Server.Dtos.AddDto">
+            <summary>
+            Calss Add Dto
+            </summary>
+        </member>
+        <member name="P:CalculatorService.Server.Dtos.AddDto.Addends">
+            <summary>
+            Represents the input of the arithmetic operation.
+            </summary>
+        </member>
+        <member name="T:CalculatorService.Server.Dtos.DivDto">
+            <summary>
+            Class Div DTO
+            </summary>
+        </member>
+        <member name="P:CalculatorService.Server.Dtos.DivDto.Dividend">
+            <summary>
+            Represents the dividend of the arithmetic division.
+            </summary>
+        </member>
+        <member name="P:CalculatorService.Server.Dtos.DivDto.Divisor">
+            <summary>
+            Represents the divisor of the arithmetic division.
+            </summary>
+        </member>
+        <member name="T:CalculatorService.Server.Dtos.MultDto">
+            <summary>
+            Class Mult DTO  
+            </summary>
+        </member>
+        <member name="P:CalculatorService.Server.Dtos.MultDto.Factors">
+            <summary>
+            Represents the inputs of a arithmetic operation.
+            </summary>
+        </member>
+        <member name="T:CalculatorService.Server.Dtos.QueryDto">
+            <summary>
+            Class for Query DTO
+            </summary>
+        </member>
+        <member name="P:CalculatorService.Server.Dtos.QueryDto.Id">
+            <summary>
+            The TrackingId for which journal should be queried against.
+            </summary>
+        </member>
+        <member name="T:CalculatorService.Server.Dtos.SqrtDto">
+            <summary>
+            Class Sqrt DTO
+            </summary>
+        </member>
+        <member name="P:CalculatorService.Server.Dtos.SqrtDto.Number">
+            <summary>
+            Represents the input of the square root mathematical function.
+            </summary>
+        </member>
+        <member name="T:CalculatorService.Server.Dtos.SubDto">
+            <summary>
+            Class SubDto
+            </summary>
+        </member>
+        <member name="P:CalculatorService.Server.Dtos.SubDto.Minuend">
+            <summary>
+            Represents the minuend of the arithmetic subtraction.
+            </summary>
+        </member>
+        <member name="P:CalculatorService.Server.Dtos.SubDto.Subtrahend">
+            <summary>
+            Represents the subtrahend of the arithmetic subtraction.
+            </summary>
+        </member>
+        <member name="M:CalculatorService.Server.Response.Extension.TryAsync``1(System.Func{System.Threading.Tasks.Task{``0}},Serilog.ILogger)">
+            <summary>
+            TryAsync
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="action"></param>
+            <param name="logger"></param>
+            <returns></returns>
+        </member>
+        <member name="P:CalculatorService.Server.Response.Response`1.Data">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:CalculatorService.Server.Response.Response`1.Successful">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:CalculatorService.Server.Response.Response`1.ErrorMessage">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:CalculatorService.Server.Response.Response`1.ErrorStatus">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:CalculatorService.Server.Response.Response`1.ErrorCode">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:CalculatorService.Server.Response.Response`1.#ctor">
+            <summary>
+            constructor's method
+            </summary>
+        </member>
+    </members>
+</doc>

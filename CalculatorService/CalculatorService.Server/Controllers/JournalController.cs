@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading.Tasks;
-using CalculatorService.Model;
+﻿using CalculatorService.Model;
 using CalculatorService.Server.Dtos;
 using CalculatorService.Service;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-
+using Serilog;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 namespace CalculatorService.Server.Controllers
 {
     [Route("api/[controller]")]
@@ -24,14 +19,14 @@ namespace CalculatorService.Server.Controllers
         /// <summary>
         /// The logger.
         /// </summary>
-        private readonly ILogger<JournalController> _logger;
+        private readonly ILogger _logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:CalculatorService.Server.JournalController"/> class.
         /// </summary>
         /// <param name="serviceCalculators">Service Calculators.</param>
         /// <param name="logger">logger.</param>
-        public JournalController(IServiceCalculators serviceCalculators, ILogger<JournalController> logger)
+        public JournalController(IServiceCalculators serviceCalculators, ILogger logger)
         {
             this.serviceCalculators = serviceCalculators;
             this._logger = logger;
@@ -50,7 +45,7 @@ namespace CalculatorService.Server.Controllers
             }
             catch (ServiceException ex)
             {
-                _logger.LogError(ex.StackTrace);
+                _logger.Error(ex.StackTrace);
                 return new Collection<Operations>();
             }
 

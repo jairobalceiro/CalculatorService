@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace CalculatorService.Server.Response
 {
+    /// <summary>
+    /// Respuesta 
+    /// </summary>
     public static class Extension
     {
         /// <summary>
@@ -17,7 +20,7 @@ namespace CalculatorService.Server.Response
         /// <param name="action"></param>
         /// <param name="logger"></param>
         /// <returns></returns>
-        public static async Task<Response<T>> TryAsync<T>(Func<Task<T>> action, ILogger logger)
+        public static Response<T> Try<T>(Func<T> action, ILogger logger)
         {
             var response = new Response<T>();
 
@@ -25,7 +28,7 @@ namespace CalculatorService.Server.Response
             {
                 try
                 {
-                    response.Data = await action().ConfigureAwait(false);
+                    response.Data = action();
                     response.Successful = true;
                     response.ErrorStatus = HttpStatusCode.OK;
                 }

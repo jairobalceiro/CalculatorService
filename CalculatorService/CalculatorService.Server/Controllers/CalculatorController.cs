@@ -1,5 +1,6 @@
 ﻿using CalculatorService.Model;
 using CalculatorService.Server.Dtos;
+using CalculatorService.Server.Response;
 using CalculatorService.Service;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
@@ -34,19 +35,17 @@ namespace CalculatorService.Server.Controllers
 
         [HttpPost]
         [Route("[action]")]
-        public ActionResult<Sums> Add([FromBody] AddDto add)
+        public Response<Sums> Add([FromBody] AddDto add)
         {
-            try
+            return Extension.Try<Sums>(() =>
             {
+
                 string TrackingId = null;
                 var re = Request;
                 var headers = re.Headers;
                 string calculations = null;
 
-                if (add.Addends == null)
-                    return BadRequest("invalid request/arguments");
-
-                Sums sum =  this.serviceCalculators.Add(add.Addends);
+                Sums sum = this.serviceCalculators.Add(add.Addends);
 
                 //If a 'TrackingId’ was provided, the server should store this request’s details inside it’s 
                 //journal, indexed by the given Id.
@@ -54,11 +53,11 @@ namespace CalculatorService.Server.Controllers
                 {
                     TrackingId = headers["X-Evi-Tracking-Id"];
 
-                    if(!string.IsNullOrEmpty(TrackingId))
+                    if (!string.IsNullOrEmpty(TrackingId))
                     {
-                        foreach(int num in add.Addends)
+                        foreach (int num in add.Addends)
                         {
-                            calculations +=  num + "+";
+                            calculations += num + "+";
                         }
 
                         Operations operation = new Operations()
@@ -66,7 +65,7 @@ namespace CalculatorService.Server.Controllers
                             Id = TrackingId,
                             Operation = "Sum",
                             Date = DateTime.UtcNow.ToString("s") + "Z",
-                            Calculation = string.Format("{0}",calculations + "=" + sum.Sum).Replace("+=","=")
+                            Calculation = string.Format("{0}", calculations + "=" + sum.Sum).Replace("+=", "=")
                         };
 
                         this.serviceCalculators.SaveJournal(operation);
@@ -74,27 +73,19 @@ namespace CalculatorService.Server.Controllers
                 }
 
                 return sum;
-            }
-            catch (ServiceException ex)
-            {
-                _logger.Error(ex.StackTrace);
-                throw new Exception(ex.Message);
-            }
+            }, _logger);
 
         }
 
         [HttpPost]
         [Route("[action]")]
-        public ActionResult<Sub> Sub([FromBody] SubDto sub)
+        public Response<Sub> Sub([FromBody] SubDto sub)
         {
-            try
+            return Extension.Try<Sub>(() =>
             {
                 string TrackingId = null;
                 var re = Request;
                 var headers = re.Headers;
-
-                if (sub.Minuend == 0 && sub.Subtrahend == 0 )
-                    return BadRequest("invalid request/arguments");
 
                 Sub Difference = this.serviceCalculators.Sub(sub.Minuend, sub.Subtrahend);
 
@@ -119,28 +110,21 @@ namespace CalculatorService.Server.Controllers
                     }
                 }
                 return Difference;
-            }
-            catch (ServiceException ex)
-            {
-                _logger.Error(ex.StackTrace);
-                throw new Exception(ex.Message);
-            }
+            }, _logger);
 
         }
 
         [HttpPost]
         [Route("[action]")]
-        public ActionResult<Mult> Mult([FromBody] MultDto multdto)
+        public Response<Mult> Mult([FromBody] MultDto multdto)
         {
-            try
+            return Extension.Try<Mult>(() =>
             {
                 string TrackingId = null;
                 var re = Request;
                 var headers = re.Headers;
                 string Factors = null;
-                if (multdto.Factors == null)
-                    return BadRequest("invalid request/arguments");
-
+                
                 Mult Product = this.serviceCalculators.Mult(multdto.Factors);
 
                 //If a 'TrackingId’ was provided, the server should store this request’s details inside it’s 
@@ -168,28 +152,20 @@ namespace CalculatorService.Server.Controllers
                     }
                 }
                 return Product;
-            }
-            catch (ServiceException ex)
-            {
-                _logger.Error(ex.StackTrace);
-                throw new Exception(ex.Message);
-            }
+            }, _logger);
 
         }
 
         [HttpPost]
         [Route("[action]")]
-        public ActionResult<Div> Div([FromBody] DivDto divdto)
+        public Response<Div> Div([FromBody] DivDto divdto)
         {
-            try
+            return Extension.Try<Div>(() =>
             {
                 string TrackingId = null;
                 var re = Request;
                 var headers = re.Headers;
-
-                if (divdto.Divisor == 0)
-                    return BadRequest("invalid request/arguments");
-
+              
                 Div Restul = this.serviceCalculators.Div(divdto.Dividend,divdto.Divisor);
 
                 //If a 'TrackingId’ was provided, the server should store this request’s details inside it’s 
@@ -214,27 +190,19 @@ namespace CalculatorService.Server.Controllers
                 }
 
                 return Restul;
-            }
-            catch (ServiceException ex)
-            {
-                _logger.Error(ex.StackTrace);
-                throw new Exception(ex.Message);
-            }
+            }, _logger);
 
         }
 
         [HttpPost]
         [Route("[action]")]
-        public ActionResult<Sqrt> Sqrt([FromBody] SqrtDto sqrtdto)
+        public Response<Sqrt> Sqrt([FromBody] SqrtDto sqrtdto)
         {
-            try
+            return Extension.Try<Sqrt>(() =>
             {
                 string TrackingId = null;
                 var re = Request;
                 var headers = re.Headers;
-
-                if (sqrtdto.Number == 0)
-                    return BadRequest("invalid request/arguments");
 
                 Sqrt Restul = this.serviceCalculators.Sqrt(sqrtdto.Number);
 
@@ -260,13 +228,7 @@ namespace CalculatorService.Server.Controllers
                 }
 
                 return Restul;
-            }
-            catch (ServiceException ex)
-            {
-                _logger.Error(ex.StackTrace);
-                throw new Exception(ex.Message);
-            }
-
+            }, _logger);
         }
 
 

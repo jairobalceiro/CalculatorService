@@ -108,7 +108,12 @@
             Represents the subtrahend of the arithmetic subtraction.
             </summary>
         </member>
-        <member name="M:CalculatorService.Server.Response.Extension.TryAsync``1(System.Func{System.Threading.Tasks.Task{``0}},Serilog.ILogger)">
+        <member name="T:CalculatorService.Server.Response.Extension">
+            <summary>
+            Respuesta 
+            </summary>
+        </member>
+        <member name="M:CalculatorService.Server.Response.Extension.Try``1(System.Func{``0},Serilog.ILogger)">
             <summary>
             TryAsync
             </summary>

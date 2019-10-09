@@ -1,5 +1,6 @@
 ﻿using CalculatorService.Model;
 using CalculatorService.Server.Dtos;
+using CalculatorService.Server.Response;
 using CalculatorService.Service;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
@@ -34,20 +35,15 @@ namespace CalculatorService.Server.Controllers
 
         [HttpPost]
         [Route("[action]")]
-        public IEnumerable<Operations> Query([FromBody] QueryDto querydto)
+        public Response<IEnumerable<Operations>> Query([FromBody] QueryDto querydto)
         {
-            try
+            return Extension.Try<IEnumerable<Operations>>(() =>
             {
                 
                 var Restul = this.serviceCalculators.Query(querydto.Id);
 
                 return Restul;
-            }
-            catch (ServiceException ex)
-            {
-                _logger.Error(ex.StackTrace);
-                return new Collection<Operations>();
-            }
+            }, _logger);
 
         }
     }

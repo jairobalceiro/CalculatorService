@@ -41,37 +41,32 @@ namespace CalculatorService.Server.Controllers
             {
 
                 string TrackingId = null;
-                var re = Request;
-                var headers = re.Headers;
                 string calculations = null;
 
                 Sums sum = this.serviceCalculators.Add(add.Addends);
 
                 //If a 'TrackingId’ was provided, the server should store this request’s details inside it’s 
                 //journal, indexed by the given Id.
-                if (headers.ContainsKey("X-Evi-Tracking-Id"))
+
+                TrackingId = ValidateTrackingId();
+
+                if (!string.IsNullOrEmpty(TrackingId))
                 {
-                    TrackingId = headers["X-Evi-Tracking-Id"];
-
-                    if (!string.IsNullOrEmpty(TrackingId))
+                    foreach (int num in add.Addends)
                     {
-                        foreach (int num in add.Addends)
-                        {
-                            calculations += num + "+";
-                        }
-
-                        Operations operation = new Operations()
-                        {
-                            Id = TrackingId,
-                            Operation = "Sum",
-                            Date = DateTime.UtcNow.ToString("s") + "Z",
-                            Calculation = string.Format("{0}", calculations + "=" + sum.Sum).Replace("+=", "=")
-                        };
-
-                        this.serviceCalculators.SaveJournal(operation);
+                        calculations += num + "+";
                     }
-                }
 
+                    Operations operation = new Operations()
+                    {
+                        Id = TrackingId,
+                        Operation = "Sum",
+                        Date = DateTime.UtcNow.ToString("s") + "Z",
+                        Calculation = string.Format("{0}", calculations + "=" + sum.Sum).Replace("+=", "=")
+                    };
+
+                    this.serviceCalculators.SaveJournal(operation);
+                }
                 return sum;
             }, _logger);
 
@@ -91,24 +86,23 @@ namespace CalculatorService.Server.Controllers
 
                 //If a 'TrackingId’ was provided, the server should store this request’s details inside it’s 
                 //journal, indexed by the given Id.
-                if (headers.ContainsKey("X-Evi-Tracking-Id"))
+
+                TrackingId = ValidateTrackingId();
+
+                if (!string.IsNullOrEmpty(TrackingId))
                 {
-                    TrackingId = headers["X-Evi-Tracking-Id"];
 
-                    if (!string.IsNullOrEmpty(TrackingId))
+                    Operations operation = new Operations()
                     {
-                       
-                        Operations operation = new Operations()
-                        {
-                            Id = TrackingId,
-                            Operation = "Sub",
-                            Date = DateTime.UtcNow.ToString("s") + "Z",
-                            Calculation = sub.Minuend + "-" +  sub.Subtrahend + "=" + Difference.Difference
-                        };
+                        Id = TrackingId,
+                        Operation = "Sub",
+                        Date = DateTime.UtcNow.ToString("s") + "Z",
+                        Calculation = sub.Minuend + "-" + sub.Subtrahend + "=" + Difference.Difference
+                    };
 
-                        this.serviceCalculators.SaveJournal(operation);
-                    }
+                    this.serviceCalculators.SaveJournal(operation);
                 }
+                
                 return Difference;
             }, _logger);
 
@@ -121,35 +115,31 @@ namespace CalculatorService.Server.Controllers
             return Extension.Try<Mult>(() =>
             {
                 string TrackingId = null;
-                var re = Request;
-                var headers = re.Headers;
                 string Factors = null;
                 
                 Mult Product = this.serviceCalculators.Mult(multdto.Factors);
 
                 //If a 'TrackingId’ was provided, the server should store this request’s details inside it’s 
                 //journal, indexed by the given Id.
-                if (headers.ContainsKey("X-Evi-Tracking-Id"))
+
+                TrackingId = ValidateTrackingId();
+
+                if (!string.IsNullOrEmpty(TrackingId))
                 {
-                    TrackingId = headers["X-Evi-Tracking-Id"];
-
-                    if (!string.IsNullOrEmpty(TrackingId))
+                    foreach (int num in multdto.Factors)
                     {
-                        foreach (int num in multdto.Factors)
-                        {
-                            Factors += num + "*";
-                        }
-
-                        Operations operation = new Operations()
-                        {
-                            Id = TrackingId,
-                            Operation = "Mult",
-                            Date = DateTime.UtcNow.ToString("s") + "Z",
-                            Calculation = string.Format("{0}", Factors + "=" + Product.Product).Replace("*=", "=")
-                        };
-
-                        this.serviceCalculators.SaveJournal(operation);
+                        Factors += num + "*";
                     }
+
+                    Operations operation = new Operations()
+                    {
+                        Id = TrackingId,
+                        Operation = "Mult",
+                        Date = DateTime.UtcNow.ToString("s") + "Z",
+                        Calculation = string.Format("{0}", Factors + "=" + Product.Product).Replace("*=", "=")
+                    };
+
+                    this.serviceCalculators.SaveJournal(operation);
                 }
                 return Product;
             }, _logger);
@@ -163,30 +153,25 @@ namespace CalculatorService.Server.Controllers
             return Extension.Try<Div>(() =>
             {
                 string TrackingId = null;
-                var re = Request;
-                var headers = re.Headers;
               
                 Div Restul = this.serviceCalculators.Div(divdto.Dividend,divdto.Divisor);
 
                 //If a 'TrackingId’ was provided, the server should store this request’s details inside it’s 
                 //journal, indexed by the given Id.
-                if (headers.ContainsKey("X-Evi-Tracking-Id"))
+                TrackingId = ValidateTrackingId();
+
+                if (!string.IsNullOrEmpty(TrackingId))
                 {
-                    TrackingId = headers["X-Evi-Tracking-Id"];
 
-                    if (!string.IsNullOrEmpty(TrackingId))
+                    Operations operation = new Operations()
                     {
+                        Id = TrackingId,
+                        Operation = "Div",
+                        Date = DateTime.UtcNow.ToString("s") + "Z",
+                        Calculation = divdto.Dividend + "/" + divdto.Divisor + "=" + Restul.Quotient + "." + Restul.Remainder
+                    };
 
-                        Operations operation = new Operations()
-                        {
-                            Id = TrackingId,
-                            Operation = "Div",
-                            Date = DateTime.UtcNow.ToString("s") + "Z",
-                            Calculation = divdto.Dividend + "/" + divdto.Divisor + "=" + Restul.Quotient + "." + Restul.Remainder
-                        };
-
-                        this.serviceCalculators.SaveJournal(operation);
-                    }
+                    this.serviceCalculators.SaveJournal(operation);
                 }
 
                 return Restul;
@@ -201,36 +186,45 @@ namespace CalculatorService.Server.Controllers
             return Extension.Try<Sqrt>(() =>
             {
                 string TrackingId = null;
-                var re = Request;
-                var headers = re.Headers;
+              
 
                 Sqrt Restul = this.serviceCalculators.Sqrt(sqrtdto.Number);
 
                 //If a 'TrackingId’ was provided, the server should store this request’s details inside it’s 
                 //journal, indexed by the given Id.
-                if (headers.ContainsKey("X-Evi-Tracking-Id"))
+               TrackingId = ValidateTrackingId();
+
+                if (!string.IsNullOrEmpty(TrackingId))
                 {
-                    TrackingId = headers["X-Evi-Tracking-Id"];
 
-                    if (!string.IsNullOrEmpty(TrackingId))
+                    Operations operation = new Operations()
                     {
+                        Id = TrackingId,
+                        Operation = "Sqrt",
+                        Date = DateTime.UtcNow.ToString("s") + "Z",
+                        Calculation = sqrtdto.Number + " square " + "=" + Restul.Square
+                    };
 
-                        Operations operation = new Operations()
-                        {
-                            Id = TrackingId,
-                            Operation = "Sqrt",
-                            Date = DateTime.UtcNow.ToString("s") + "Z",
-                            Calculation = sqrtdto.Number + " square " + "=" + Restul.Square 
-                        };
-
-                        this.serviceCalculators.SaveJournal(operation);
-                    }
+                    this.serviceCalculators.SaveJournal(operation);
                 }
 
                 return Restul;
             }, _logger);
         }
 
+        private string ValidateTrackingId()
+        {
+            string TrackingId = null;
 
+            var re = Request;
+            var headers = re.Headers;
+
+            if (headers.ContainsKey("X-Evi-Tracking-Id"))
+            {
+                TrackingId = headers["X-Evi-Tracking-Id"];
+            }
+
+            return TrackingId;
+        }
     }
 }

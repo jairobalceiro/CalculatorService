@@ -147,5 +147,13 @@
             constructor's method
             </summary>
         </member>
+        <member name="M:CalculatorService.Server.Setup.Settings.LoadSomeDependencies(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Load all dependencies
+            </summary>
+            <param name="services">services</param>
+            <param name="Configuration">Configuration</param>
+            <returns></returns>
+        </member>
     </members>
 </doc>

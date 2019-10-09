@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using CalculatorService.Data;
+using CalculatorService.Server.Setup;
 using CalculatorService.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -13,6 +16,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using Serilog;
 using Swashbuckle.AspNetCore.Swagger;
 
@@ -22,38 +26,35 @@ namespace CalculatorService
     {
         public Startup(IConfiguration configuration)
         {
-            // Init Serilog configuration
-            Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(configuration).CreateLogger();
-
             Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<IDaoCalculators, DaoCalculators>();
-            services.AddTransient<IServiceCalculators, ServiceCalculators>();
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+            .AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
 
-            services.AddCors(options =>
-            {
-                options.AddPolicy("AllowSpecificOrigin", builder =>
-                    builder.AllowAnyHeader()
-                           .AllowAnyMethod()
-                           .AllowAnyOrigin()
-                );
-            });
+            services.LoadSomeDependencies(Configuration);
 
-            services.AddSwaggerGen(s =>
-            {
-                s.SwaggerDoc("v1", new Info { Title = Configuration["Swagger:Name"], Version = "v1" });
-                // Set the comments path for the Swagger JSON and UI.
-                string xmlPath = Path.Combine(AppContext.BaseDirectory, Configuration["Swagger:xmlFile"]);
-                s.IncludeXmlComments(xmlPath);
-            });
+            var builder = new ContainerBuilder();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            builder.Populate(services);
+
+            builder.RegisterType<DaoCalculators>().As<IDaoCalculators>();
+            builder.RegisterType<ServiceCalculators>().As<IServiceCalculators>();
+
+            builder.Register(c => new LoggerConfiguration()
+               .ReadFrom.Configuration(Configuration)
+               .MinimumLevel.Verbose()
+               .Enrich.FromLogContext()
+               //.WriteTo.
+               .CreateLogger()).As<Serilog.ILogger>();
+
+            return new AutofacServiceProvider(builder.Build());
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

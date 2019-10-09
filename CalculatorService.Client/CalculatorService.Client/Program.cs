@@ -38,8 +38,10 @@ namespace CalculatorService.Client
                 client.BaseAddress = new Uri(url);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                if(!string.IsNullOrEmpty(trackingId))
-                client.DefaultRequestHeaders.Add("X-Evi-Tracking-Id", trackingId);
+                if (!string.IsNullOrEmpty(trackingId))
+                {
+                    client.DefaultRequestHeaders.Add("X-Evi-Tracking-Id", trackingId);
+                }
 
                 HttpResponseMessage responsePost = await client.PostAsJsonAsync("api/calculator/add", addPost);
                 if (responsePost.IsSuccessStatusCode)
